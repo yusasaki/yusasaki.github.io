@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE Certification Report Card v6 — ART &amp; SCIENCE</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Special+Elite&family=Courier+Prime:wght@400;700&family=Noto+Serif+JP:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#cfc6b2;
+  background-image:radial-gradient(circle at 20% 10%,rgba(255,255,255,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(0,0,0,.06),transparent 45%);
+  padding:30px 14px;font-family:'Special Elite',monospace;min-height:100vh;
+}
+/* lang toggle */
+.lang-toggle{display:flex;justify-content:center;margin-bottom:22px;gap:0}
+.lang-btn{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:3px;padding:8px 30px;border:1px solid #1a1a1a;background:#e8e0cc;color:#6b6050;cursor:pointer}
+.lang-btn.active{background:#1a1a1a;color:#e8e0cc}
+.card-wrap{display:none}
+.card-wrap.show{display:block}
+
+.wrap{
+  font-family:'Special Elite',monospace;color:#1a1a1a;background:#f5f0e8;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(120,100,70,.04) 24px);
+  border:3px double #1a1a1a;padding:26px 30px;max-width:880px;margin:0 auto;position:relative;
+  box-shadow:0 14px 40px rgba(40,30,15,.28);
+}
+.corner{position:absolute;width:16px;height:16px;border:2px solid #1a1a1a}
+.corner.tl{top:8px;left:8px;border-right:none;border-bottom:none}
+.corner.tr{top:8px;right:8px;border-left:none;border-bottom:none}
+.corner.bl{bottom:8px;left:8px;border-right:none;border-top:none}
+.corner.br{bottom:8px;right:8px;border-left:none;border-top:none}
+
+.top-border{border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:4px 0;text-align:center;font-size:10px;letter-spacing:3px;margin-bottom:16px;font-family:sans-serif}
+.doc-title{text-align:center;margin-bottom:4px}
+.doc-title h1{font-family:'UnifrakturMaguntia',serif;font-size:30px;font-weight:400;line-height:1.25}
+.doc-title .sub{font-size:10px;letter-spacing:4px;color:#444;margin-top:4px;font-family:sans-serif}
+.spine{text-align:center;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:2px;color:#7a5a20;margin:8px 0 2px;font-weight:700}
+.ornament{text-align:center;font-size:16px;margin:6px 0 10px;color:#444;letter-spacing:8px}
+
+.meta-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:9px 0}
+.meta-item{text-align:center}
+.meta-label{font-size:9px;letter-spacing:1px;color:#666;display:block;margin-bottom:2px;font-family:sans-serif}
+.meta-value{font-size:12px;font-weight:700;border-bottom:1px solid #888;padding-bottom:2px;display:inline-block;min-width:90px;min-height:16px}
+
+/* table */
+.table-wrap{border:1px solid #1a1a1a;border-bottom:none;margin-top:6px}
+.grid-header{display:grid;grid-template-columns:182px 1fr}
+.col-head-left{font-size:9px;letter-spacing:1px;padding:6px 8px;border:1px solid #1a1a1a;border-right:1px solid #6b6050;background:#d4c9b0;font-family:sans-serif;font-weight:700;display:flex;align-items:center}
+.col-head{font-size:9px;letter-spacing:2px;text-align:center;padding:6px 4px;border:1px solid #1a1a1a;border-left:none;background:#d4c9b0;font-family:sans-serif;font-weight:700}
+.levels-header{display:grid;grid-template-columns:repeat(5,1fr)}
+.lh{font-size:8px;letter-spacing:.3px;text-align:center;padding:5px 2px;border:1px solid #1a1a1a;border-left:none;background:#e8e0cc;line-height:1.45;font-family:sans-serif;font-weight:700}
+.lh .verb{font-size:9px;color:#7a5a20;display:block;margin-top:1px}
+.lh.cert{background:#dfd3b4;box-shadow:inset 0 -3px 0 #7a5a20}
+.lh.roi{background:#1a1a1a;color:#f0e8d2}
+.lh.roi .verb{color:#e0b85a}
+
+.domain-row{display:grid;grid-template-columns:182px 1fr;border-bottom:1px solid #888}
+.domain-label{padding:7px 8px;border-right:1px solid #1a1a1a;border-left:1px solid #1a1a1a;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.domain-num{font-size:9px;color:#666;letter-spacing:.5px;font-family:sans-serif}
+.domain-name{font-size:11px;font-weight:700;line-height:1.3;font-family:sans-serif}
+.tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.tag{font-size:7px;letter-spacing:.2px;font-family:'Courier Prime',monospace;border:1px solid #b3a988;color:#6b6050;padding:1px 4px;border-radius:2px;background:#efe8d6}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);border-right:1px solid #1a1a1a}
+.score-cell{border-left:1px solid #aaa;padding:6px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.score-cell.roi{background:#f0ead9}
+.grade{font-size:17px;font-weight:700;font-family:'Courier Prime',monospace;color:#1a1a1a}
+.grade.low{color:#9a8a60}
+.grade-sub{font-size:7.5px;color:#666;text-align:center;line-height:1.25;font-family:sans-serif}
+.last-row{border-bottom:1px solid #1a1a1a}
+
+/* coverage bar */
+.coverage{margin-top:16px;border:1px solid #1a1a1a;background:#ece4d2;padding:11px 14px}
+.cov-top{display:flex;justify-content:space-between;align-items:baseline;font-family:sans-serif;font-size:10px;letter-spacing:1px;color:#444;margin-bottom:6px}
+.cov-top b{font-size:13px;color:#1a1a1a;letter-spacing:0}
+.cov-grade{font-family:'Courier Prime',monospace;font-weight:700;color:#7a5a20}
+.cov-bar{height:14px;background:#d8cdb2;border:1px solid #1a1a1a;position:relative;overflow:hidden}
+.cov-fill{height:100%;background:repeating-linear-gradient(45deg,#7a5a20,#7a5a20 6px,#8c6a2c 6px,#8c6a2c 12px)}
+.cov-note{font-family:sans-serif;font-size:8.5px;color:#666;margin-top:5px;letter-spacing:.3px}
+.cov-cert{font-family:'Courier Prime',monospace;font-size:10px;color:#1a4a1a;font-weight:700;border:1px solid #1a4a1a;padding:1px 6px;display:inline-block;margin-top:5px}
+
+.note{font-size:8.5px;color:#666;line-height:1.8;margin-top:13px;padding-top:9px;border-top:1px dashed #aaa;font-family:sans-serif}
+.stamp-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:18px;padding-top:13px;border-top:1px solid #1a1a1a}
+.legend{font-size:8.5px;color:#666;line-height:1.9;font-family:sans-serif}
+.sig-area{text-align:center}
+.sig-line{border-bottom:1px solid #1a1a1a;width:150px;margin:0 auto 4px}
+.sig-label{font-size:9px;letter-spacing:1px;color:#666;font-family:sans-serif}
+.seal{width:84px;height:84px;border-radius:50%;border:3px double #1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;transform:rotate(-7deg)}
+.seal-main{font-size:12px;font-weight:700;letter-spacing:1px;font-family:'Special Elite',monospace}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* === SPECIMEN (issuance-path test) overlay — added for /verify/sample === */
+.specimen-banner{position:sticky;top:0;z-index:999;background:#7a1f1f;color:#f5f0e8;
+ font-family:'Special Elite',monospace;text-align:center;font-size:12px;letter-spacing:2px;
+ padding:9px 12px;border-bottom:3px double #1a1a1a;box-shadow:0 4px 14px rgba(40,30,15,.35)}
+.specimen-banner b{letter-spacing:4px}
+.specimen-mark{position:fixed;inset:0;pointer-events:none;z-index:998;display:flex;
+ align-items:center;justify-content:center;overflow:hidden}
+.specimen-mark span{font-family:'Courier Prime',monospace;font-weight:700;font-size:9vw;
+ color:rgba(122,31,31,.10);transform:rotate(-24deg);white-space:nowrap;letter-spacing:1vw}
+
+</style>
+</head>
+<body>
+<div class="specimen-banner"><b>SPECIMEN — ISSUANCE-PATH TEST ONLY / NOT A CERTIFICATION</b><br>
+本ページは発行経路確認用のサンプル表示です（認定実績ではありません）。 This page is a sample for issuance-path verification only.</div>
+<div class="specimen-mark" aria-hidden="true"><span>SPECIMEN&nbsp;&nbsp;SPECIMEN</span></div>
+
+
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('ja',this)">日本語</button>
+  <button class="lang-btn" onclick="setLang('en',this)">ENGLISH</button>
+</div>
+
+<!-- ============ JAPANESE ============ -->
+<div class="card-wrap show" id="ja">
+<h2 class="sr-only">FDE認定通知表 — 日本語版、5段階能力評価フレームワーク</h2>
+<div class="wrap">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="top-border">機密文書 &nbsp;·&nbsp; FDE認定評価書 &nbsp;·&nbsp; 取扱注意</div>
+  <div class="doc-title">
+    <h1>Forward Deployed Engineer</h1>
+    <div class="sub">認 定 評 価 通 知 表</div>
+  </div>
+  <div class="spine">わかる · できる · できた · 変えた · 証明した</div>
+  <div class="ornament">— * * * —</div>
+  <div class="meta-row">
+    <div class="meta-item"><span class="meta-label">氏名</span><span class="meta-value"></span></div>
+    <div class="meta-item"><span class="meta-label">評価日</span><span class="meta-value"></span></div>
+    <div class="meta-item"><span class="meta-label">コホート / 期</span><span class="meta-value"></span></div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="grid-header">
+      <div class="col-head-left">評価領域（9領域）</div>
+      <div>
+        <div class="col-head">5段階能力評価フレームワーク（カークパトリック ＋ フィリップス）</div>
+        <div class="levels-header">
+          <div class="lh">Lv1 反応<span class="verb">わかる</span></div>
+          <div class="lh">Lv2 学習<span class="verb">できる</span></div>
+          <div class="lh cert">Lv3 行動 ★<span class="verb">できた</span></div>
+          <div class="lh">Lv4 成果<span class="verb">変えた</span></div>
+          <div class="lh roi">Lv5 ROI<span class="verb">証明した</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D1 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D1 データ計測・効果検証力</span><span class="domain-name">Data Measurement &amp; Validation</span><div class="tags"><span class="tag">KPI設計</span><span class="tag">G-Eval/RAGAS</span><span class="tag">対照群</span><span class="tag">ROI算出</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">KPI・評価指標<br>を理解</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">ベースライン<br>を実測</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">現場でKPI<br>測定を実施</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">前後比較で<br>改善を実証</span></div>
+        <div class="score-cell roi"><span class="grade">B-</span><span class="grade-sub">効果を金額換算<br>しROI算出</span></div>
+      </div>
+    </div>
+    <!-- D2 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D2 セキュリティ・ガバナンス力</span><span class="domain-name">Security &amp; Governance</span><div class="tags"><span class="tag">ゼロトラスト</span><span class="tag">LLMガバナンス</span><span class="tag">EU AI Act</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">ゼロトラスト<br>等を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">統制設計<br>を実演</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">案件で統制<br>を実装</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">リスクを<br>実際に低減</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">回避損失額を<br>金額で証明</span></div>
+      </div>
+    </div>
+    <!-- D3 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D3 組織連携・知識移転力</span><span class="domain-name">Org Collaboration &amp; Transfer</span><div class="tags"><span class="tag">内製化</span><span class="tag">スキル移転</span><span class="tag">変革管理</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">内製化モデル<br>を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">移転計画<br>を設計</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">顧客チームへ<br>移転実施</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">離脱後も<br>自走を実現</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">内製化の<br>削減額を証明</span></div>
+      </div>
+    </div>
+    <!-- D4 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D4 デリバリー力</span><span class="domain-name">Delivery &amp; Impact</span><div class="tags"><span class="tag">スコープ管理</span><span class="tag">アジャイル</span><span class="tag">リスク先読み</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">スコープ/リスク<br>管理を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">計画・変更<br>管理を実演</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">案件をオン<br>タイム完遂</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">完遂率・納期<br>を改善</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">工数削減を<br>金額で証明</span></div>
+      </div>
+    </div>
+    <!-- D5 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D5 技術実装力</span><span class="domain-name">Technical Execution</span><div class="tags"><span class="tag">フルスタック</span><span class="tag">AIエージェント/MCP</span><span class="tag">PoC→本番</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">フルスタック<br>/PoCを理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">動くプロト<br>タイプ構築</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">顧客先で<br>本番納品</span></div>
+        <div class="score-cell"><span class="grade">B-</span><span class="grade-sub">解決策が<br>定着・稼働</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">創出価値を<br>金額で証明</span></div>
+      </div>
+    </div>
+    <!-- D6 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D6 ビジネス理解力</span><span class="domain-name">Business Acumen</span><div class="tags"><span class="tag">バリューチェーン</span><span class="tag">KSF分析</span><span class="tag">AI介在点特定</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">事業構造/ROI<br>仮説を理解</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">課題を自力<br>で構造化</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">現場でケース<br>を主導</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">分析が意思<br>決定を動かす</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">収益効果を<br>金額で証明</span></div>
+      </div>
+    </div>
+    <!-- D7 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D7 コミュニケーション力</span><span class="domain-name">Communication &amp; Influence</span><div class="tags"><span class="tag">3言語変換</span><span class="tag">ストーリーライン</span><span class="tag">ステークホルダー</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">3言語変換<br>を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">非技術役員<br>へ説明</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">提案が承認<br>・採択</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">戦略方向を<br>実際に変えた</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">合意の事業<br>効果を証明</span></div>
+      </div>
+    </div>
+    <!-- D8 -->
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D8 商談・バリュー設計力</span><span class="domain-name">Deal &amp; Value Design</span><div class="tags"><span class="tag">仮説ROIモデル</span><span class="tag">感度分析</span><span class="tag">クロージング</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">ROI設計/意思<br>決定構造を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">投資提案書<br>を作成</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">経営層から<br>承認取得</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">契約・予算<br>を獲得</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">受注/継続額<br>をROIで証明</span></div>
+      </div>
+    </div>
+    <!-- D9 -->
+    <div class="domain-row last-row">
+      <div class="domain-label"><span class="domain-num">D9 システム設計・統合力</span><span class="domain-name">Systems Integration</span><div class="tags"><span class="tag">全体俯瞰</span><span class="tag">制約理論(TOC)</span><span class="tag">全体最適</span><span class="tag">4E</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">全体俯瞰/制約<br>思考を理解</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">全体最適<br>マップを描く</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">複数システム<br>を統合実装</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">全体最適で<br>成果波及</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">統合効果を<br>全社ROIで証明</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="coverage">
+    <div class="cov-top"><span>スキルカバレッジ ／ 認定等級</span><b>FDE Professional <span class="cov-grade">総合 84.6%</span></b></div>
+    <div class="cov-bar"><div class="cov-fill" style="width:84.6%"></div></div>
+    <div class="cov-note">分子＝保有スキル数 ÷ 分母＝等級別要件項目数 × 100。本カード（Professional）は Lv3「行動」分母＝<b>91</b> で算定（=表示専用・合否ゲートとは別系統）。<br>※ Associate 等級のカードは Lv2「学習」分母＝<b>71</b>（Level-2 denominator）で算定。</div>
+    <span class="cov-cert">✓ 認定基準達成：Lv3「できた」全9領域 B以上</span>
+  </div>
+
+  <div class="note">
+    5段階能力評価フレームワーク &nbsp;·&nbsp; Lv1 反応（わかる）: 概念を理解 &nbsp;·&nbsp; Lv2 学習（できる）: スキルを実演 &nbsp;·&nbsp; Lv3 行動（できた）: 現場で実践 ★認定ライン &nbsp;·&nbsp; Lv4 成果（変えた）: 測定可能なインパクト＝3軸アウトカム（アウトカム/デリバリー/内製化） &nbsp;·&nbsp; Lv5 ROI（証明した）: 成果を金額換算し投資対効果を証明（フィリップス） &nbsp;·&nbsp; <b>認定条件：全9領域のLv3でB以上</b>
+  </div>
+  <div class="stamp-row">
+    <div class="legend">A = 卓越 &nbsp;·&nbsp; B = 習熟<br>C = 発展途上 &nbsp;·&nbsp; D = 不十分<br><br>認定基準：Lv3 全9領域 B以上<br>Lv5（ROI）は Expert 等級の要件</div>
+    <div class="sig-area"><div class="sig-line"></div><div class="sig-label">評価責任者 署名</div></div>
+    <div class="seal"><div class="seal-main">FDE</div><div style="font-size:6px;letter-spacing:1px;margin-top:2px;font-family:sans-serif">認定済</div><div style="font-size:6px;margin-top:3px;line-height:1.4;font-family:sans-serif">ART &amp; SCIENCE<br>Global FDE Standard</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ============ ENGLISH ============ -->
+<div class="card-wrap" id="en">
+<h2 class="sr-only">FDE Certification Report Card — English, 5-Level Competency Framework</h2>
+<div class="wrap">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="top-border">CONFIDENTIAL &nbsp;·&nbsp; FDE CERTIFICATION ASSESSMENT &nbsp;·&nbsp; HANDLE WITH CARE</div>
+  <div class="doc-title">
+    <h1>Forward Deployed Engineer</h1>
+    <div class="sub">CERTIFICATION REPORT CARD</div>
+  </div>
+  <div class="spine">KNOWS · CAN DO · HAS DONE · CHANGED IT · PROVED IT</div>
+  <div class="ornament">— * * * —</div>
+  <div class="meta-row">
+    <div class="meta-item"><span class="meta-label">NAME</span><span class="meta-value"></span></div>
+    <div class="meta-item"><span class="meta-label">DATE</span><span class="meta-value"></span></div>
+    <div class="meta-item"><span class="meta-label">COHORT</span><span class="meta-value"></span></div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="grid-header">
+      <div class="col-head-left">COMPETENCY (9 DOMAINS)</div>
+      <div>
+        <div class="col-head">5-LEVEL COMPETENCY FRAMEWORK (KIRKPATRICK + PHILLIPS)</div>
+        <div class="levels-header">
+          <div class="lh">L1 Reaction<span class="verb">knows</span></div>
+          <div class="lh">L2 Learning<span class="verb">can do</span></div>
+          <div class="lh cert">L3 Behavior ★<span class="verb">has done</span></div>
+          <div class="lh">L4 Results<span class="verb">changed it</span></div>
+          <div class="lh roi">L5 ROI<span class="verb">proved it</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D1 Data Measurement</span><span class="domain-name">Measurement &amp; Validation</span><div class="tags"><span class="tag">KPI design</span><span class="tag">G-Eval/RAGAS</span><span class="tag">control group</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows KPI &amp;<br>eval metrics</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">Measures<br>baseline</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Runs field<br>KPI measure</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Proves gains<br>pre/post</span></div>
+        <div class="score-cell roi"><span class="grade">B-</span><span class="grade-sub">Converts to<br>monetary ROI</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D2 Security &amp; Governance</span><span class="domain-name">Security &amp; Governance</span><div class="tags"><span class="tag">zero-trust</span><span class="tag">LLM gov</span><span class="tag">EU AI Act</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">Knows zero-<br>trust &amp; gov</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Designs<br>controls</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Implements<br>controls live</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">Reduces<br>real risk</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">Proves avoided<br>loss in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D3 Org &amp; Transfer</span><span class="domain-name">Collaboration &amp; Transfer</span><div class="tags"><span class="tag">enablement</span><span class="tag">skill transfer</span><span class="tag">change mgmt</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows enable-<br>ment model</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Plans the<br>transfer</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Transfers to<br>client team</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Client self-runs<br>after exit</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">Proves in-house<br>savings in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D4 Delivery &amp; Impact</span><span class="domain-name">Delivery &amp; Impact</span><div class="tags"><span class="tag">scope mgmt</span><span class="tag">agile</span><span class="tag">risk foresight</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows scope<br>&amp; risk mgmt</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Demonstrates<br>change mgmt</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Delivers on<br>time</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">Improves<br>delivery rate</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">Proves effort<br>savings in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D5 Technical Execution</span><span class="domain-name">Technical Execution</span><div class="tags"><span class="tag">full-stack</span><span class="tag">AI agents/MCP</span><span class="tag">PoC→prod</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows full-<br>stack &amp; PoC</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Builds working<br>prototype</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Ships prod<br>on-site</span></div>
+        <div class="score-cell"><span class="grade">B-</span><span class="grade-sub">Solution<br>adopted &amp; live</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">Proves value<br>created in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D6 Business Acumen</span><span class="domain-name">Business Acumen</span><div class="tags"><span class="tag">value chain</span><span class="tag">KSF analysis</span><span class="tag">AI fit-points</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows biz<br>structure/ROI</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">Structures<br>the problem</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Leads biz<br>case live</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Analysis moves<br>decisions</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">Proves revenue<br>impact in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D7 Communication</span><span class="domain-name">Communication &amp; Influence</span><div class="tags"><span class="tag">3-lang xlate</span><span class="tag">storylining</span><span class="tag">stakeholders</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows 3-lang<br>translation</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Briefs non-<br>tech execs</span></div>
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">Proposal<br>approved</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Shifts client<br>strategy</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">Proves biz<br>effect in $</span></div>
+      </div>
+    </div>
+    <div class="domain-row">
+      <div class="domain-label"><span class="domain-num">D8 Deal &amp; Value Design</span><span class="domain-name">Deal &amp; Value Design</span><div class="tags"><span class="tag">ROI model</span><span class="tag">sensitivity</span><span class="tag">closing</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A-</span><span class="grade-sub">Knows ROI &amp;<br>decision flow</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Drafts invest-<br>ment case</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Wins exec<br>approval</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">Secures deal<br>/budget</span></div>
+        <div class="score-cell roi"><span class="grade">C+</span><span class="grade-sub">Proves deal<br>value as ROI</span></div>
+      </div>
+    </div>
+    <div class="domain-row last-row">
+      <div class="domain-label"><span class="domain-num">D9 Systems Integration</span><span class="domain-name">Systems Integration</span><div class="tags"><span class="tag">whole-system</span><span class="tag">TOC</span><span class="tag">optimum</span><span class="tag">4E</span></div></div>
+      <div class="scores">
+        <div class="score-cell"><span class="grade">A</span><span class="grade-sub">Knows constraint<br>thinking</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Maps whole<br>system</span></div>
+        <div class="score-cell"><span class="grade">B</span><span class="grade-sub">Integrates<br>across systems</span></div>
+        <div class="score-cell"><span class="grade">C+</span><span class="grade-sub">Whole-system<br>impact</span></div>
+        <div class="score-cell roi"><span class="grade low">C</span><span class="grade-sub">Proves org-<br>wide ROI</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="coverage">
+    <div class="cov-top"><span>SKILL COVERAGE / CERTIFIED GRADE</span><b>FDE Professional <span class="cov-grade">overall 84.6%</span></b></div>
+    <div class="cov-bar"><div class="cov-fill" style="width:84.6%"></div></div>
+    <div class="cov-note">numerator = skills held ÷ denominator = grade-level required items × 100. This (Professional) card is computed on the <b>Level-3 (Behavior) denominator = 91</b> (display-only; separate from the pass/fail gate).<br>Associate-grade cards are computed on the <b>Level-2 (Learning) denominator = 71</b>.</div>
+    <span class="cov-cert">✓ THRESHOLD MET: Level 3 "Has done" — B or above across all 9 domains</span>
+  </div>
+
+  <div class="note">
+    5-Level Competency Framework &nbsp;·&nbsp; L1 Reaction (knows): understands the concept &nbsp;·&nbsp; L2 Learning (can do): demonstrates the skill &nbsp;·&nbsp; L3 Behavior (has done): applied in the field ★threshold &nbsp;·&nbsp; L4 Results (changed it): measurable impact = 3-axis outcomes (outcome / delivery / in-housing) &nbsp;·&nbsp; L5 ROI (proved it): impact converted to money, return on investment proven (Phillips) &nbsp;·&nbsp; <b>Certification: B or above across all 9 domains at L3.</b>
+  </div>
+  <div class="stamp-row">
+    <div class="legend">A = Exceptional &nbsp;·&nbsp; B = Proficient<br>C = Developing &nbsp;·&nbsp; D = Insufficient<br><br>Threshold: L3 across all 9 domains, B or above<br>L5 (ROI) is the Expert-grade requirement</div>
+    <div class="sig-area"><div class="sig-line"></div><div class="sig-label">AUTHORIZED EVALUATOR</div></div>
+    <div class="seal"><div class="seal-main">FDE</div><div style="font-size:6px;letter-spacing:1px;margin-top:2px;font-family:sans-serif">CERTIFIED</div><div style="font-size:6px;margin-top:3px;line-height:1.4;font-family:sans-serif">ART &amp; SCIENCE<br>Global FDE Standard</div></div>
+  </div>
+</div>
+</div>
+
+<script>
+function setLang(lang, btn){
+  document.querySelectorAll('.card-wrap').forEach(c=>c.classList.remove('show'));
+  document.getElementById(lang).classList.add('show');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.documentElement.lang = lang;
+}
+</script>
+</body>
+</html>

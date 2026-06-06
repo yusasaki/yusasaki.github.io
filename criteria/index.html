@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certification Criteria — ART &amp; SCIENCE / Global FDE Standard</title>
+<meta name="description" content="Public certification criteria of the Global FDE Standard: 9 competency domains, 5-level evaluation, certification line and coverage definition.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Special+Elite&family=Courier+Prime:wght@400;700&family=Noto+Serif+JP:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#cfc6b2;
+  background-image:radial-gradient(circle at 20% 10%,rgba(255,255,255,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(0,0,0,.06),transparent 45%);
+  padding:30px 14px;font-family:'Special Elite',monospace;min-height:100vh;color:#1a1a1a;
+}
+.lang-toggle{display:flex;justify-content:center;margin-bottom:22px;gap:0}
+.lang-btn{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:3px;padding:8px 30px;border:1px solid #1a1a1a;background:#e8e0cc;color:#6b6050;cursor:pointer}
+.lang-btn.active{background:#1a1a1a;color:#e8e0cc}
+.page{display:none}.page.show{display:block}
+.wrap{
+  background:#f5f0e8;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(120,100,70,.04) 24px);
+  border:3px double #1a1a1a;padding:28px 32px;max-width:880px;margin:0 auto;position:relative;
+  box-shadow:0 14px 40px rgba(40,30,15,.28);
+}
+.corner{position:absolute;width:16px;height:16px;border:2px solid #1a1a1a}
+.corner.tl{top:8px;left:8px;border-right:none;border-bottom:none}
+.corner.tr{top:8px;right:8px;border-left:none;border-bottom:none}
+.corner.bl{bottom:8px;left:8px;border-right:none;border-top:none}
+.corner.br{bottom:8px;right:8px;border-left:none;border-top:none}
+.top-border{border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:4px 0;text-align:center;font-size:10px;letter-spacing:3px;margin-bottom:16px;font-family:sans-serif}
+h1{font-family:'UnifrakturMaguntia',serif;font-size:30px;font-weight:400;text-align:center;line-height:1.25}
+.sub{font-size:10px;letter-spacing:4px;color:#444;margin-top:4px;font-family:sans-serif;text-align:center}
+.spine{text-align:center;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:2px;color:#7a5a20;margin:8px 0 2px;font-weight:700}
+.ornament{text-align:center;font-size:16px;margin:6px 0 14px;color:#444;letter-spacing:8px}
+h2{font-size:15px;letter-spacing:2px;border-bottom:2px solid #1a1a1a;padding-bottom:5px;margin:26px 0 10px;font-family:'Special Elite',monospace}
+p,li{font-size:13px;line-height:1.9;font-family:'Noto Serif JP',serif}
+ol,ul{margin:6px 0 6px 22px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-family:'Noto Serif JP',serif;font-size:12.5px}
+th,td{border:1px solid #1a1a1a;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#e8e0cc;font-size:11px;letter-spacing:1px}
+.note{font-size:11.5px;color:#555;border-left:3px solid #7a5a20;padding:6px 10px;margin:10px 0;background:rgba(122,90,32,.05);font-family:'Noto Serif JP',serif;line-height:1.8}
+.stamp{margin:26px auto 4px;width:fit-content;border:2px solid #7a1f1f;color:#7a1f1f;padding:6px 18px;font-size:11px;letter-spacing:3px;transform:rotate(-2deg)}
+footer{margin-top:26px;border-top:1px solid #1a1a1a;padding-top:10px;text-align:center;font-size:10px;letter-spacing:2px;color:#555;font-family:sans-serif;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">ENGLISH</button>
+  <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">日本語</button>
+</div>
+
+<!-- ====================== 日本語 ====================== -->
+<div class="page show" id="page-ja">
+<div class="wrap">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="top-border">PUBLIC CERTIFICATION CRITERIA ・ 公開認定基準</div>
+  <h1>Global FDE Standard</h1>
+  <div class="sub">CERTIFICATION CRITERIA — PROVISIONAL EDITION (Y1)</div>
+  <div class="spine">ISSUER: ART &amp; SCIENCE / GLOBAL FDE STANDARD</div>
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <p>本ページは、FDE（Forward Deployed Engineer）認定の<strong>公開基準（不変レイヤー）</strong>を定義します。認定の軸となる能力領域・評価段階・認定ライン・カバレッジ指標の定義を公開し、個別の出題・採点基準・現場アセスメント課題は公開しません（試験の公正性保持のため）。</p>
+
+  <h2>I. 能力領域 — 9 COMPETENCY DOMAINS</h2>
+  <table>
+    <tr><th>#</th><th>領域</th><th>#</th><th>領域</th><th>#</th><th>領域</th></tr>
+    <tr><td>D1</td><td>データ計測・効果検証力</td><td>D4</td><td>デリバリー力</td><td>D7</td><td>コミュニケーション力</td></tr>
+    <tr><td>D2</td><td>セキュリティ・ガバナンス力</td><td>D5</td><td>技術実装力</td><td>D8</td><td>商談・バリュー設計力</td></tr>
+    <tr><td>D3</td><td>組織連携・知識移転力</td><td>D6</td><td>ビジネス理解力</td><td>D9</td><td>システム設計・統合力</td></tr>
+  </table>
+
+  <h2>II. 評価段階 — 5-LEVEL EVALUATION</h2>
+  <table>
+    <tr><th>段階</th><th>名称</th><th>証拠</th><th>到達の顔</th></tr>
+    <tr><td>Lv1</td><td>反応 Reaction</td><td>概念理解の確認</td><td>わかる</td></tr>
+    <tr><td>Lv2</td><td>学習 Learning</td><td>テスト・スキル実演</td><td>できる</td></tr>
+    <tr><td>Lv3</td><td>行動 Behavior</td><td>現場での実践（評価者2名による独立審査）</td><td><strong>できた ★認定ライン</strong></td></tr>
+    <tr><td>Lv4</td><td>成果 Results</td><td>測定可能なアウトカム</td><td>変えた</td></tr>
+    <tr><td>Lv5</td><td>ROI</td><td>成果の金額換算 ÷ 投資コスト</td><td>証明した</td></tr>
+  </table>
+
+  <h2>III. 認定ラインと合格基準</h2>
+  <ul>
+    <li><strong>FDE Professional 認定ライン＝全9領域で Lv3「できた」B評定以上。</strong></li>
+    <li>合格基準＝必須スキル項目100%＋選択スキル項目60%以上の充足（領域別判定）。</li>
+    <li>スキルカバレッジ%＝保有スキル項目数 ÷ 等級別要件項目数 ×100。<strong>カバレッジ%は表示指標であり、合否判定値ではありません。</strong></li>
+  </ul>
+
+  <h2>IV. 認定階層 — 4 TIERS</h2>
+  <table>
+    <tr><th>階層</th><th>到達要件（概要）</th></tr>
+    <tr><td>FDE Associate</td><td>Lv1–2（わかる・できる）の充足</td></tr>
+    <tr><td>FDE Professional</td><td>Lv3（できた）全9領域B以上 ★実務認定</td></tr>
+    <tr><td>FDE Expert</td><td>Lv4–5（変えた・証明した）のインパクト実績</td></tr>
+    <tr><td>FDE Fellow</td><td>Expert後、次世代育成への貢献</td></tr>
+  </table>
+  <p class="note">Foundations修了証（Certificate of Completion）は上記4階層の認定バッジとは別カテゴリの修了証であり、デジタル認定バッジではありません。</p>
+
+  <h2>V. 検証 — VERIFICATION</h2>
+  <p>本標準の認定バッジは Open Badges 規格に準拠して発行され、各バッジの Evidence URL から本ドメイン上の Report Card（評定明細）を第三者がいつでも検証できます。発行者（Issuer）は <strong>ART &amp; SCIENCE / Global FDE Standard</strong> 単一に固定されています。</p>
+
+  <div class="stamp">PROVISIONAL — Y1 DEFINITION EDITION</div>
+  <p class="note">本ページはY1定義版（仮設置）です。正式版Criteria全文は順次本ページで公開されます。実データに基づく改訂はY2以降、標準改訂手続を経て行われます。</p>
+
+  <footer>ISSUER: ART &amp; SCIENCE / GLOBAL FDE STANDARD<br>CRITERIA URL: https://fdestandard.org/criteria ・ VERIFICATION: https://fdestandard.org/verify/</footer>
+</div>
+</div>
+
+<!-- ====================== ENGLISH ====================== -->
+<div class="page" id="page-en">
+<div class="wrap">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="top-border">PUBLIC CERTIFICATION CRITERIA</div>
+  <h1>Global FDE Standard</h1>
+  <div class="sub">CERTIFICATION CRITERIA — PROVISIONAL EDITION (Y1)</div>
+  <div class="spine">ISSUER: ART &amp; SCIENCE / GLOBAL FDE STANDARD</div>
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <p>This page defines the <strong>public criteria (invariant layer)</strong> of the FDE (Forward Deployed Engineer) certification: the competency domains, evaluation levels, certification line, and coverage metric. Individual test items, scoring anchors, and field-assessment assignments are not published, to preserve assessment integrity.</p>
+
+  <h2>I. 9 COMPETENCY DOMAINS</h2>
+  <table>
+    <tr><th>#</th><th>Domain</th><th>#</th><th>Domain</th><th>#</th><th>Domain</th></tr>
+    <tr><td>D1</td><td>Data Measurement &amp; Impact Validation</td><td>D4</td><td>Delivery</td><td>D7</td><td>Communication</td></tr>
+    <tr><td>D2</td><td>Security &amp; Governance</td><td>D5</td><td>Technical Implementation</td><td>D8</td><td>Deal &amp; Value Design</td></tr>
+    <tr><td>D3</td><td>Organizational Collaboration &amp; Knowledge Transfer</td><td>D6</td><td>Business Understanding</td><td>D9</td><td>System Design &amp; Integration</td></tr>
+  </table>
+
+  <h2>II. 5-LEVEL EVALUATION</h2>
+  <table>
+    <tr><th>Level</th><th>Name</th><th>Evidence</th><th>Plain-words anchor</th></tr>
+    <tr><td>Lv1</td><td>Reaction</td><td>Conceptual understanding</td><td>"I understand"</td></tr>
+    <tr><td>Lv2</td><td>Learning</td><td>Tests &amp; skill demonstration</td><td>"I can do it"</td></tr>
+    <tr><td>Lv3</td><td>Behavior</td><td>Application in the field (two independent assessors)</td><td><strong>"I did it" ★Certification line</strong></td></tr>
+    <tr><td>Lv4</td><td>Results</td><td>Measurable outcomes</td><td>"I changed it"</td></tr>
+    <tr><td>Lv5</td><td>ROI</td><td>Monetized outcomes ÷ investment</td><td>"I proved it"</td></tr>
+  </table>
+
+  <h2>III. CERTIFICATION LINE &amp; PASSING RULE</h2>
+  <ul>
+    <li><strong>FDE Professional certification line = Grade B or above at Lv3 ("I did it") across all 9 domains.</strong></li>
+    <li>Passing rule = 100% of required skill items plus at least 60% of elective skill items, judged per domain.</li>
+    <li>Skill Coverage % = held skill items ÷ tier requirement items × 100. <strong>Coverage % is a display metric, not a pass/fail value.</strong></li>
+  </ul>
+
+  <h2>IV. 4 CERTIFICATION TIERS</h2>
+  <table>
+    <tr><th>Tier</th><th>Requirement (summary)</th></tr>
+    <tr><td>FDE Associate</td><td>Lv1–2 attainment</td></tr>
+    <tr><td>FDE Professional</td><td>Lv3, Grade B or above across all 9 domains ★Practice-certified</td></tr>
+    <tr><td>FDE Expert</td><td>Lv4–5 impact track record</td></tr>
+    <tr><td>FDE Fellow</td><td>Post-Expert contribution to developing the next generation</td></tr>
+  </table>
+  <p class="note">The Foundations Certificate of Completion is a separate category of completion document and is not a digital certification badge.</p>
+
+  <h2>V. VERIFICATION</h2>
+  <p>Badges under this standard are issued in conformance with the Open Badges specification. Each badge's Evidence URL links to a Report Card hosted on this domain, allowing any third party to verify the underlying grades at any time. The Issuer is fixed as a single entity: <strong>ART &amp; SCIENCE / Global FDE Standard</strong>.</p>
+
+  <div class="stamp">PROVISIONAL — Y1 DEFINITION EDITION</div>
+  <p class="note">This is the provisional Y1 definition edition. The full criteria text will be published on this page. Data-driven revisions follow the standard-revision protocol from Y2 onward.</p>
+
+  <footer>ISSUER: ART &amp; SCIENCE / GLOBAL FDE STANDARD<br>CRITERIA URL: https://fdestandard.org/criteria ・ VERIFICATION: https://fdestandard.org/verify/</footer>
+</div>
+</div>
+
+<script>
+function setLang(l){
+  document.getElementById('page-ja').classList.toggle('show', l==='ja');
+  document.getElementById('page-en').classList.toggle('show', l==='en');
+  document.getElementById('btn-ja').classList.toggle('active', l==='ja');
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+  document.documentElement.lang = l;
+}
+</script>
+</body>
+</html>
